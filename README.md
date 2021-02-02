@@ -10,6 +10,30 @@ docker-compose up --detach
 docker-compse down -t5
 ```
 
+## Init database
+
+After running the `docker-compose up --deatch` for the first time, run the command
+below to init the database:
+
+```bash
+diesel migration run
+```
+
+And then open `src/schema.rs` and change the `id -> Int4,` to `id -> Nullable<Int4>,`
+which looks like below:
+
+```rust
+table! {
+    users (id) {
+        id -> Nullable<Int4>,
+        name -> Varchar,
+        is_male -> Bool,
+    }
+}
+```
+
+That makes the auto increased primary id become `Option<i32>` type in `Rust`.
+
 ## How to run test bin
 
 - Add users
